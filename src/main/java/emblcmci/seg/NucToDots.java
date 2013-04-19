@@ -23,7 +23,7 @@ import ij.process.ImageProcessor;
  *
  */
 public class NucToDots {
-
+    private ImagePlus procImg;
 	private ImagePlus imp;
 	private int[] xcoordA;
 	private int[] ycoordA;
@@ -77,6 +77,7 @@ public class NucToDots {
 		IJ.run(imp2, "Distance Map", "");
 		return imp2;
 	}
+	
 
 	/** 
 	 * Convert to 8 bit -
@@ -148,6 +149,7 @@ public class NucToDots {
 	public void runmain(){
 		ImagePlus ppimp = preprocessCoreStack(this.imp);
 		IJ.run(ppimp, "Distance Map", "stack");
+		this.procImg = ppimp;
 		IJ.log("Estimating max points ...");
 		Polygon maxpolygon;
 		ArrayList<Polygon> ploygonlist = new ArrayList<Polygon>();
@@ -208,6 +210,9 @@ public class NucToDots {
 		return frameA;
 	}
 	
+	public ImagePlus getImg() {
+		return procImg;
+	}
 	
 	
 }

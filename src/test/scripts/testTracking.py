@@ -20,15 +20,18 @@ and then get track
 #imgpath = '/Users/miura/Dropbox/people/julia/NucSegmentStudy/l5c1_fastCLAHE.tif'
 # imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l1/CH2_maxp.tif'
 #imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l2/l2c1.tif'
-imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l3/l3c1.tif'
+#imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l3/l3c1.tif'
 #imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l4/l4c1.tif'
+print "Hello world"
+imgpath = 'C:\\Users\\Antonio Politi\\Science\\Julia_Atto\\test2\\test_W001_P001_T001.lsm'
+
 imp = IJ.openImage(imgpath)
 ntd = NucToDots(imp);
 ntd.run() # runs CLAHE first, takes a bit of time. 
 #ntd.runmain() # for imp that is already stackCLAHEed.
 #for i in ntd.getXcoordA():
 #        print i
-
+imgPP = ntd.getImg()
 
 print "Extracting Nucleus ..."
 subwwhh = 130  # this must be guessed in the pre-run, by doing particle analysis and get the approximate sizes. 

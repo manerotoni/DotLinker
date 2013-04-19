@@ -22,7 +22,7 @@ public class Node {
 	private int id;
 	double areafraction;	//fraction of area compared to the first time point in the trajectory
 
-	ImageProcessor orgip;	// binary image of the node
+	ImageProcessor orgip;	// original image of the node
 	ImageProcessor binip;	// binary image of the node
 	Roi orgroi;				// roi in the original frame: for knowing the original coordinates and size. 
 

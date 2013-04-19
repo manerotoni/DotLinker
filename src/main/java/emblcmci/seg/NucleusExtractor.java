@@ -104,7 +104,7 @@ public class NucleusExtractor extends ParticleAnalyzer {
 	 * alternative method to the 
 	 * getPerNucleusBinImgProcessors(ImagePlus imp, int roisize, int[] xA, int[] yA, int[] fA),
 	 * 
-	 * does not depend on the initilal estimation by MaxFinder. 
+	 * does not depend on the initial estimation by MaxFinder. 
 	 * @param imp: original stack
 	 * @param binimp: binarized stack. This could be rough, as more detailed corrections will be made.  
 	 */
