@@ -5,6 +5,7 @@ from emblcmci.linker import DotLinkerHeadless as DLH, TrackReLinker
 from emblcmci.linker.costfunctions import LinkCostsOnlyDistance
 from emblcmci.linker import ViewDynamics as VD
 from emblcmci.obj.converters import VecTrajectoryToTracks
+from emblcmci.obj.converters import NodesToCoordArrays
 from emblcmci.seg import NucleusExtractor
 from emblcmci.linker.plotter import TrackLabeling, TrackStackConstructor
 from emblcmci.linker import TrackFilter, TrackFiller, RoiCorrector
@@ -23,7 +24,7 @@ and then get track
 #imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l3/l3c1.tif'
 #imgpath = '/Volumes/D/Julia20130201-/almfscreen/samples_112712/l4/l4c1.tif'
 print "Hello world"
-imgpath = 'C:\\Users\\Antonio Politi\\Science\\Julia_Atto\\test2\\C1-Max_test_W001_P001_T001.tif'
+imgpath = 'C:\\Users\\Antonio Politi\\Science\\Julia_Atto\\test2\\C1-test_W001_P001_T001.tif'
 imp = IJ.openImage(imgpath)
 imp.show()
 ntd = NucToDots(imp)
@@ -33,7 +34,6 @@ ntd.run() # runs CLAHE first, takes a bit of time.
 #        print i
 imp2 = ntd.getImg()
 imp2.show()
-for (i=0; i< ntd.
 print "Extracting Nucleus ..."
 subwwhh = 130  # this must be guessed in the pre-run, by doing particle analysis and get the approximate sizes. 
 WATERSHED_THRESHOLD = 0.10;
@@ -44,7 +44,9 @@ en.analyzeDotsandBinImages()
 print 'node length after filtering: ' + str(en.getNodes().size()) 
 
 nodes = en.getNodes()
-nodes(1).getBin
+
+
+
 '''
 stk = ImageStack(subwwhh, subwwhh)
 for n in nodes:
@@ -54,10 +56,12 @@ ImagePlus("tt", stk).show()
 '''
 
 IJ.log('Linking ...')
-dlh = DLH(imp, 3, 10) # linkrange, distance
+dlh = DLH(imp, 1, 10) # linkrange, distance
 #dlh.setData(ntd.getXcoordA(), ntd.getYcoordA(),  ntd.getFrameA())
 dlh.setData(nodes) # a new way, 20130321
+#this sets the cost function
 nearestneighbor = LinkCostsOnlyDistance()
+
 dlh.doLinking(nearestneighbor, False)
 
 # convert to Tracks object
@@ -78,6 +82,16 @@ tracks.accept(TrackReLinker(10))
 RoiCorrector().run(tracks, imp, WATERSHED_THRESHOLD)
 TrackFiller().run(tracks, imp, subwwhh, WATERSHED_THRESHOLD)
 
+for i in range(0, tracks.size()):
+    track = tracks.get(i)
+    try:
+        nodes = track.getNodes()
+        for node in nodes:
+            print 'trackId ' + str(node.trackID) + '; nodeId '  + str(node.id) + '; frame ' +  str(node.frame)
+    except:
+        print "empty track"
+
+
 # plotting part
 vd = VD(imp)
 #img2path = '/Volumes/D/Julia20130201-/NucleusSegmentationStudy/20130312/out_bernsen45.tif'
@@ -89,8 +103,8 @@ vd.trackAllPlotter(tracks, imp)
 
 #vd.trackGapLinkPlotter(tracks, imp)
 
-impout1 = TrackStackConstructor().createBinStack(tracks, 4)
-impout2 = TrackStackConstructor().createBinStack(tracks, 21)
+impout1 = TrackStackConstructor().createBinStack(tracks, 1)
+impout2 = TrackStackConstructor().createBinStack(tracks, 11)
 if impout1 is not None:
     impout1.show()
 if impout2 is not None:

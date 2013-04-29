@@ -57,12 +57,14 @@ IJ.log('Linking ...')
 dlh = DLH(imp, 3, 10) # linkrange, distance
 #dlh.setData(ntd.getXcoordA(), ntd.getYcoordA(),  ntd.getFrameA())
 dlh.setData(nodes) # a new way, 20130321
+#this sets the type of cost function
 nearestneighbor = LinkCostsOnlyDistance()
 dlh.doLinking(nearestneighbor, False)
 
 # convert to Tracks object
 vttt = VecTrajectoryToTracks()
 #vttt.run(dlh.getAll_traj())
+#Assigns the tracks. This just converts the previous values to a more general class
 vttt.run(dlh.getAll_traj(), nodes)
 tracks = vttt.getTracks()
 print "tracks", str(tracks.size())
@@ -71,13 +73,23 @@ print "tracks", str(tracks.size())
     #print t.getTrackID(), t.getNodes().get(0).getX(), t.getNodes().size(), t.getFrameStart()
 #    print t.getNodes().get(0).getOrgroi()
 
+'''
+    Try to relink with a larger gap (here up to 10)
+'''
 tracks.accept(TrackReLinker(10))
 
 #tracks = TrackFilter().run(tracks, 70)
 
+'''
+    Correct the Roisize and eventually resegment 
+'''
 RoiCorrector().run(tracks, imp, WATERSHED_THRESHOLD)
-TrackFiller().run(tracks, imp, subwwhh, WATERSHED_THRESHOLD)
 
+'''
+    Interpolate nodes
+'''
+TrackFiller().run(tracks, imp, subwwhh, WATERSHED_THRESHOLD)
+ 
 # plotting part
 vd = VD(imp)
 #img2path = '/Volumes/D/Julia20130201-/NucleusSegmentationStudy/20130312/out_bernsen45.tif'
