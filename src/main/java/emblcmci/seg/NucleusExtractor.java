@@ -1,5 +1,4 @@
 package emblcmci.seg;
-
 import ij.IJ;
 import ij.ImagePlus;
 import ij.gui.Roi;

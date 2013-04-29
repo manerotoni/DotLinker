@@ -71,8 +71,9 @@ public class DotLinkerHeadless extends AbstractDotLinker {
 	}
 
 	/**
-	 * dataloader directly via arguments of setData method. 
-	 * 2D time series data. 
+	 * dataloader()
+	 * creates a list of coordinates to be linked. The coordinates are contained in xA and yA
+	 * @return framaA: an array of particles (coordinates) at specific frameID 
 	 */
 	@Override
 	public StackFrames[] dataloader() {
@@ -87,13 +88,10 @@ public class DotLinkerHeadless extends AbstractDotLinker {
 		frameA = new StackFrames[framenumber];
 		for (int i = 0; i < framenumber; i++){
 			frameA[i] = new StackFrames(i);
-			//frameA[i].particles.next = new Particle[linkrange];
 		}
-		// fill in the Myframe object
+		//this method would fail if idA is empty?
 		for (int i = 0 ; i< timeA.length; i++){
-//			Particle particle = new Particle(xA[i], yA[i], zA[i], (int) (timeA[i] - 1), i);
-			Particle particle = new Particle(xA[i], yA[i], (int) (timeA[i] - 1), idA[i]);
-			
+			Particle particle = new Particle(xA[i],yA[i], (int) (timeA[i] - 1), idA[i]);
 			frameA[particle.frame].particles.add(particle);
 		}
 		return frameA;

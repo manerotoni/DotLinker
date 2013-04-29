@@ -40,7 +40,12 @@ public class VecTrajectoryToTracks extends AbstractVecTrajectoryToTracks{
 	public void setTracks() {
 		this.tracks = new Tracks();
 	}
-
+	/**
+	 * Method to convert "ParticleTracker" 2D trajectories to emblcmci.obj.Tracks. 
+	 * Assigns <code> tracks </code>
+	 * @param all_traj 	trajecories obtained from particle tacker
+	 * @param orgnodes  nodes (contains the coordinates of points)
+	 */
 	public void run(Vector<Trajectory> all_traj, ArrayList<Node> orgnodes){
 //		AbstractTracks tracks = new Tracks();
 		Node n;
@@ -67,7 +72,12 @@ public class VecTrajectoryToTracks extends AbstractVecTrajectoryToTracks{
 		    t.checkFrameList();
 		}
 	}
-	
+	/**
+	 * find node with a specific id
+	 * @param nodes 	A list of nodes 
+	 * @param id		id to identify
+	 * @return Node 	the node corresponding to the id
+	 */
 	public Node getNodefromId(ArrayList<Node> nodes, int id){
 		for (Node n : nodes){
 			if (n.getId() == id)

@@ -16,7 +16,7 @@ import emblcmci.obj.Node;
 import emblcmci.obj.Tracks;
 
 /**
- * Re-evaluat tracks to check  
+ * Re-evaluate tracks to check  
  * if it will be possible to merge some tracks as a single track. 
  * If possible, then merge some tracks and return an updated set of tracks. 
  * 

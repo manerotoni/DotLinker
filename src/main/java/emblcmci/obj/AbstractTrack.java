@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import emblcmci.linker.LinkAnalyzer;
+import emblcmci.obj.CoordTwoD;
 
 public abstract class AbstractTrack implements IBioObj{
 	int trackID;
@@ -92,10 +93,10 @@ public abstract class AbstractTrack implements IBioObj{
 		}
 		detectFrameBounds();
 	}
+	
 	/**
 	 * preparation for evaluating tracks. 
 	 * Store start frame and end frame of a track in the Track object. 
-	 * @param t
 	 */
 	public void detectFrameBounds(){
 		int frameStart;
@@ -111,6 +112,7 @@ public abstract class AbstractTrack implements IBioObj{
 	public CoordTwoD getTrackStartMeanPosition(){
 		return (new CoordTwoD(this.meanx_s, this.meany_s));
 	}
+	
 	public CoordTwoD getTrackEndMeanPosition(){
 		return (new CoordTwoD(this.meanx_e, this.meany_e));
 	}

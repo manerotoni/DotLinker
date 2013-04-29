@@ -10,7 +10,7 @@ import emblcmci.obj.AbstractTracks;
 import emblcmci.obj.Node;
 
 /** Abstract class for convertiong instance of Vector<Trajectory> class to Tracks class. 
- *  Vector<Trajectory> class is used in te ParticleTracker plugin. 
+ *  Vector<Trajectory> class is used in the ParticleTracker plugin. 
  * 
  * @author Kota Miura
  *

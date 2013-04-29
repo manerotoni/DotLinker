@@ -13,7 +13,7 @@ import emblcmci.seg.NucSegRitsukoProject;
 
 /**
  * Fills interpolated nodes in the gaps in tracks. 
- * Captures ImageProcessor of the correspondinng position as well. 
+ * Captures ImageProcessor of the corresponding position as well. 
  * 
  * @author miura
  *

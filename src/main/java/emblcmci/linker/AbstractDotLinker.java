@@ -44,7 +44,10 @@ import emblcmci.linker.costfunctions.LinkCosts;
 public abstract class AbstractDotLinker {
 	
 	StackFrames[] frameA;
-	private int linkrange = 2;
+	/*
+	 * the maximal range of frames that a track should be
+	 */
+	private int linkrange = 2; 
 	private double displacement = 5;
 	private Vector<Trajectory> all_traj;
 	private int number_of_trajectories;
@@ -91,13 +94,18 @@ public abstract class AbstractDotLinker {
 	 */
 	abstract public StackFrames[] dataloader();
 	
-	/** Method that should be called from a plugin, or from scripts to
+	/**
+	 * doLinking
+	 * Call linkparticles to do the linking. Data is loaded via dataloader() 
+	 * Method that should be called from a plugin, or from scripts to
 	 * do all the processing. 
+	 * @param linkcostmethod 	Method for linking can be done via nearest neighbour or using area in addition
+	 * @param showtrack		If true show the tracks
 	 */
 	public void doLinking(LinkCosts linkcostmethod, boolean showtrack){
+		//loads coordinates and iDs of nodes/particles
 		frameA = dataloader();
 		if (frameA !=null){
-			
 			IJ.showStatus("Linking Particles");		
 			linkParticles(frameA, frameA.length, linkrange, displacement, linkcostmethod);
 			this.frames_number = frameA.length;
@@ -110,7 +118,6 @@ public abstract class AbstractDotLinker {
 		generateTrajectories(frameA, frameA.length);
 		
 		// viewing the trajectories
-
 		if (showtrack)
 			generateViewXYinverted(); //plot with xy coordinate inverted, the particle tracker bug 
 		
@@ -121,8 +128,10 @@ public abstract class AbstractDotLinker {
 			trackrt.show("Tracks");
 	}
 	
-	/** simplified version of MyFrame class in Particle tracker. 
-	 * Holds particle array and frame number and area. 
+	/** 
+	 * StackFrames
+	 * Simplified version of MyFrame class in Particle tracker. 
+	 * Holds particle array (vector particles) and frame number (frameID) 
 	 */
 	public class StackFrames {
 		int frameID = 0; //here, frame starts from 1 while in ImageJ slice number starts from 1
@@ -138,6 +147,10 @@ public abstract class AbstractDotLinker {
 		}
 	}
 	
+	/**
+	 * Particle is similar to Node but specific to DotLinker
+	 * @todo: Clean up redundancy
+	 */
 	public class Particle {
 		private float x = 0;
 		private float y = 0;
@@ -521,6 +534,12 @@ public abstract class AbstractDotLinker {
 	 * same physical particle in subsequent frames and links the positions into trajectories
 	 * <br>The length of the particles next array will be reset here according to the current linkrange
 	 * <br>Adapted from Ingo Oppermann implementation
+	 * 
+	 * @param frames		Contains the coordinates of the particles
+	 * @param frames_number Maximal number of frames
+	 * @param linkrange 	Maximal frame gap to link particles
+	 * @param displacement  Maximal displacement to link particles
+	 * @param link			Cost function for linking. 
 	 */	
 	public void linkParticles(StackFrames[] frames, int frames_number, 
 			int linkrange, double displacement, LinkCosts link) {
@@ -736,13 +755,15 @@ public abstract class AbstractDotLinker {
 
 
 	/**
-	 * Generates <code>Trajectory</code> objects according to the infoamtion 
-	 * avalible in each MyFrame and Particle. 
+	 * Generates <code>Trajectory</code> objects according to the information 
+	 * available in each StackFrames. 
 	 * <br>Populates the <code>all_traj</code> Vector.
+	 * @param frameA		contains particle coordinates and frameID
+	 * @param frames_number the numbe of frames
 	 */
 	private void generateTrajectories(StackFrames[] frameA, int frames_number) {
 
-		int i, j, k;
+		int i, j, k; //counters
 		int found, n, m;
 		// Bank of colors from which the trjectories color will be selected
 		//Color[] col={Color.blue,Color.green,Color.orange,Color.cyan,Color.magenta,Color.yellow,Color.white,Color.gray,Color.pink};
@@ -769,13 +790,13 @@ public abstract class AbstractDotLinker {
 						}
 					}
 					// if this particle is not linked to any other
-					// go to next particle and dont add a trajectory
+					// go to next particle and don't add a trajectory
 					if(found == -1)
 						continue;
 
 					// Added by Guy Levy, 18.08.06 - A change form original implementation
-					// if this particle is linkd to a "real" paritcle that was already linked
-					// break the trajectory and start again from the next particle. dont add a trajectory
+					// if this particle is linked to a "real" particle that was already linked
+					// break the trajectory and start again from the next particle. don't add a trajectory
 					if(frameA[i + n + 1].getParticles().elementAt(frameA[i].getParticles().elementAt(j).next[n]).special) 
 						continue;
 
@@ -857,6 +878,10 @@ public abstract class AbstractDotLinker {
 		}
 	}
 	
+	/**
+	 * printTrajectories()
+	 * log information on found trajectories
+	 */
 	public void printTrajectories(){
 		Iterator<Trajectory> iter = all_traj.iterator();  	   
 		// Iterate over all the trajectories
@@ -888,6 +913,7 @@ public abstract class AbstractDotLinker {
 		for (int i =1; i<counter.length; i++)
 			IJ.log("track length " + i + ": " + counter[i]);
 	}
+	
 	public void putLinkedParticeID(){
 		ResultsTable rt = ResultsTable.getResultsTable();
 		Particle ptcl, linkedptcl;

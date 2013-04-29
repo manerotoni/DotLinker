@@ -33,9 +33,6 @@ import ij.plugin.PlugIn;
  * 
  */
 public class Dot_Linker implements PlugIn {
-	/**
-	 *
-	 */
 	// parameters for calculating links
 	int linkrange = 2;
 	double displacement = 2.0;

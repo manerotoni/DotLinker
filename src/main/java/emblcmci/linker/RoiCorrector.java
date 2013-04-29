@@ -20,7 +20,7 @@ public class RoiCorrector {
 	 * according to the xy position of the node. 
 	 * subimage and the binarized image associated with the node is then updated. 
 	 * 
-	 * @param ts: Tracks. 
+	 * @param ts: Tracks.
 	 * @param imp: original ImagePlus (image stack)
 	 * @param wsthreshold: threshold value for watershed evaluation. 
 	 */

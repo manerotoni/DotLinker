@@ -128,8 +128,9 @@ public class NucSegRitsukoProject{
 		return stk;
 	}
 	
-	/** see the description of
-	 * loadImagesToNode(Node n, ImageProcessor ip, int wsthreshold)
+	/** 
+	 * see also the method
+	 * {@link NucSegRitsukoProject#loadImagesToNode(Node, ImageProcessor , double)}
 	 * 
 	 * @param n
 	 * @param imp: could be either a stack or a single image. 
@@ -143,6 +144,7 @@ public class NucSegRitsukoProject{
 			ip = imp.getProcessor();
 		loadImagesToNode(n, ip, wsthreshold);
 	}
+	
 	/**
 	 * extracts image within the original image according to the Roi info 
 	 * that the Node has, do binary segmentation and then store those
@@ -200,8 +202,10 @@ public class NucSegRitsukoProject{
 	/**
 	 * Ritsuko's project method for the nucleus segmentation. 
 	 * 8 bit or 16 bit 
+	 * Blur image and watershed
 	 * 20130319
-	 * @param subip a small subset image with supposedly single nucleus. 
+	 * @param subip 		a small subset image with supposedly single nucleus.
+	 * @param wsthreshold  	Threshold for watershed
 	 * @return binarized ImageProcessor
 	 */
 	public ImageProcessor binarize(ImageProcessor subip, double wsthreshold){
@@ -235,7 +239,6 @@ public class NucSegRitsukoProject{
 	public ImageProcessor cleanEdge(ImagePlus imp){
 		ImageProcessor ipout = KILL_EDGE_OBJ.run(imp);
 		return ipout;
-		
 	}
 	
 	void postProcessing(ImageProcessor ip){
